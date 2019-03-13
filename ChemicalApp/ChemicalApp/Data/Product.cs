@@ -6,12 +6,17 @@ using System.Threading.Tasks;
 
 namespace ChemicalApp.Data
 {
-    class Product
+    public partial class Product
     {
+        public Product()
+        {
+            Debets = new HashSet<Debet>();
+            Kredits = new HashSet<Kredit>();
+        }
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public ICollection<Debet> Debets { get; set; }
-        public ICollection<Kredit> Kredits { get; set; }
+        public virtual ICollection<Debet> Debets { get; set; }
+        public virtual ICollection<Kredit> Kredits { get; set; }
     }
 }

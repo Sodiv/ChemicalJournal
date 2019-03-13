@@ -6,11 +6,16 @@ using System.Threading.Tasks;
 
 namespace ChemicalApp.Data
 {
-    class Department
+    public class Department
     {
+        public Department()
+        {
+            Kredits = new HashSet<Kredit>();
+        }
+
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public ICollection<Kredit> Kredits { get; set; }
+        public virtual ICollection<Kredit> Kredits { get; set; }
     }
 }

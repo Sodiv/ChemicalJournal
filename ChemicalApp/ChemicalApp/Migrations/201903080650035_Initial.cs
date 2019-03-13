@@ -13,12 +13,12 @@ namespace ChemicalApp.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Date = c.DateTime(nullable: false),
-                        Sum = c.Single(nullable: false),
-                        Product_Id = c.Int(),
+                        Sum = c.Int(nullable: false),
+                        ProductId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Products", t => t.Product_Id)
-                .Index(t => t.Product_Id);
+                .ForeignKey("dbo.Products", t => t.ProductId, cascadeDelete: true)
+                .Index(t => t.ProductId);
             
             CreateTable(
                 "dbo.Products",
@@ -35,15 +35,16 @@ namespace ChemicalApp.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Date = c.DateTime(nullable: false),
-                        Sum = c.Single(nullable: false),
-                        Department_Id = c.Int(),
-                        Product_Id = c.Int(),
+                        Sum = c.Int(nullable: false),
+                        Comment = c.String(),
+                        DepartmentId = c.Int(nullable: false),
+                        ProductId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Departments", t => t.Department_Id)
-                .ForeignKey("dbo.Products", t => t.Product_Id)
-                .Index(t => t.Department_Id)
-                .Index(t => t.Product_Id);
+                .ForeignKey("dbo.Departments", t => t.DepartmentId, cascadeDelete: true)
+                .ForeignKey("dbo.Products", t => t.ProductId, cascadeDelete: true)
+                .Index(t => t.DepartmentId)
+                .Index(t => t.ProductId);
             
             CreateTable(
                 "dbo.Departments",
@@ -58,12 +59,12 @@ namespace ChemicalApp.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.Kredits", "Product_Id", "dbo.Products");
-            DropForeignKey("dbo.Kredits", "Department_Id", "dbo.Departments");
-            DropForeignKey("dbo.Debets", "Product_Id", "dbo.Products");
-            DropIndex("dbo.Kredits", new[] { "Product_Id" });
-            DropIndex("dbo.Kredits", new[] { "Department_Id" });
-            DropIndex("dbo.Debets", new[] { "Product_Id" });
+            DropForeignKey("dbo.Kredits", "ProductId", "dbo.Products");
+            DropForeignKey("dbo.Kredits", "DepartmentId", "dbo.Departments");
+            DropForeignKey("dbo.Debets", "ProductId", "dbo.Products");
+            DropIndex("dbo.Kredits", new[] { "ProductId" });
+            DropIndex("dbo.Kredits", new[] { "DepartmentId" });
+            DropIndex("dbo.Debets", new[] { "ProductId" });
             DropTable("dbo.Departments");
             DropTable("dbo.Kredits");
             DropTable("dbo.Products");

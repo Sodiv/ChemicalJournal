@@ -25,6 +25,7 @@ namespace ChemicalApp.ViewModel
     /// </summary>
     public class ViewModelLocator
     {
+        public MainViewModel MainWindow => ServiceLocator.Current.GetInstance<MainViewModel>();
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
         /// </summary>
@@ -42,16 +43,9 @@ namespace ChemicalApp.ViewModel
             ////    // Create run time view services and models
             ////    SimpleIoc.Default.Register<IDataService, DataService>();
             ////}
+            SimpleIoc.Default.Register<IDataAccessService, DataAccessService>();
 
             SimpleIoc.Default.Register<MainViewModel>();
-        }
-
-        public MainViewModel Main
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<MainViewModel>();
-            }
         }
         
         public static void Cleanup()

@@ -77,18 +77,33 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddProduct.xaml.cs">
+      <DependentUpon>AddProduct.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Balance.cs" />
     <Compile Include="Data\ChemicalContext.cs" />
     <Compile Include="Data\Debet.cs" />
     <Compile Include="Data\Department.cs" />
     <Compile Include="Data\Kredit.cs" />
     <Compile Include="Data\Product.cs" />
-    <Compile Include="Migrations\201902160612181_Initial.cs" />
-    <Compile Include="Migrations\201902160612181_Initial.Designer.cs">
-      <DependentUpon>201902160612181_Initial.cs</DependentUpon>
+    <Compile Include="DepartmentKredit.cs" />
+    <Compile Include="IDataAccessService.cs" />
+    <Compile Include="Migrations\201903080650035_Initial.cs" />
+    <Compile Include="Migrations\201903080650035_Initial.Designer.cs">
+      <DependentUpon>201903080650035_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903080651534_Balance.cs" />
+    <Compile Include="Migrations\201903080651534_Balance.Designer.cs">
+      <DependentUpon>201903080651534_Balance.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Model\MainData.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Page Include="AddProduct.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -116,8 +131,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Migrations\201902160612181_Initial.resx">
-      <DependentUpon>201902160612181_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201903080650035_Initial.resx">
+      <DependentUpon>201903080650035_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903080651534_Balance.resx">
+      <DependentUpon>201903080651534_Balance.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -131,6 +149,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="View\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

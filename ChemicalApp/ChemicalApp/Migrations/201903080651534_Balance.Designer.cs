@@ -7,13 +7,13 @@ namespace ChemicalApp.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class Initial : IMigrationMetadata
+    public sealed partial class Balance : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Initial));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Balance));
         
         string IMigrationMetadata.Id
         {
-            get { return "201902160612181_Initial"; }
+            get { return "201903080651534_Balance"; }
         }
         
         string IMigrationMetadata.Source

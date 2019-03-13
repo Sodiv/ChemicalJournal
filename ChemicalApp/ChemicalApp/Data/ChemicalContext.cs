@@ -7,15 +7,17 @@ using System.Threading.Tasks;
 
 namespace ChemicalApp.Data
 {
-    class ChemicalContext : DbContext
+    public class ChemicalContext : DbContext
     {
         public ChemicalContext() : base("name=ChemicalDB")
         {
-
+            this.Configuration.LazyLoadingEnabled = false;
         }
-        public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<Department> Departments { get; set; }
-        public virtual DbSet<Debet> Debets { get; set; }
-        public virtual DbSet<Kredit> Kredits { get; set; }
+
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<Debet> Debets { get; set; }
+        public DbSet<Kredit> Kredits { get; set; }
+        public DbSet<Balance> Balances { get; set; }
     }
 }
