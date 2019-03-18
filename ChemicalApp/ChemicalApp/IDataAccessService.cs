@@ -17,9 +17,11 @@ namespace ChemicalApp
         ObservableCollection<Balance> GetBalances();
         ObservableCollection<Debet> GetDebets();
         ObservableCollection<Kredit> GetKredits();
+        ObservableCollection<Department> GetDepartments();
 
         Task<int> CreateProduct(Product product);
         Task<int> CreateBalance(Balance balance);
+        Task<int> CreateDebet(Debet debet);
     }
 
     public class DataAccessService : IDataAccessService
@@ -33,10 +35,28 @@ namespace ChemicalApp
                 {
                     Id = item.Id,
                     Name = item.Name,
-                    Summa = Balance(item.Id)
+                    Summa = Balance(item.Id),
+                    Debet = GetDebet(item.Id),
+                    DepartmentKredits = GetDepartmentKredits(item.Id)
                 });
             }
             return mains;
+        }
+
+        public ObservableCollection<DepartmentKredit> GetDepartmentKredits(int id)
+        {
+            var currMonth = DateTime.Today.Month;
+            ObservableCollection<DepartmentKredit> model = new ObservableCollection<DepartmentKredit>();
+            foreach (var item in GetDepartments())
+            {
+                model.Add(new DepartmentKredit()
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Sum = (from k in GetKredits() where k.ProductId == id && k.DepartmentId == item.Id && k.Date.Month == currMonth select k.Sum).Sum()
+                });
+            }
+            return model;
         }
 
         public ObservableCollection<Product> GetProducts()
@@ -61,6 +81,12 @@ namespace ChemicalApp
         {
             using (var db = new ChemicalContext())
                 return new ObservableCollection<Balance>(db.Balances.ToArray());
+        }
+
+        public int GetDebet(int id)
+        {
+            var currMonth = DateTime.Today.Month;
+            return (from d in GetDebets() where d.Date.Month == currMonth && d.ProductId == id select d.Sum).Sum();
         }
 
         public int Balance(int id)
@@ -89,6 +115,23 @@ namespace ChemicalApp
                 db.Balances.AddOrUpdate(balance);
                 if (await db.SaveChangesAsync().ConfigureAwait(false) > 0)
                     return balance.Id;
+            }
+            return 0;
+        }
+
+        public ObservableCollection<Department> GetDepartments()
+        {
+            using (var db = new ChemicalContext())
+                return new ObservableCollection<Department>(db.Departments.ToArray());
+        }
+
+        public async Task<int> CreateDebet(Debet debet)
+        {
+            using (var db=new ChemicalContext())
+            {
+                db.Debets.AddOrUpdate(debet);
+                if (await db.SaveChangesAsync().ConfigureAwait(false) > 0)
+                    return debet.Id;
             }
             return 0;
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChemicalApp.Data;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -12,5 +13,7 @@ namespace ChemicalApp.Model
         public int Id { get; set; }
         public string Name { get; set; }
         public int Summa { get; set; }
+        public int Debet { get; set; }
+        public ObservableCollection<DepartmentKredit> DepartmentKredits { get; set; }
     }
 }
