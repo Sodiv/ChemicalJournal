@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace ChemicalApp
 {
+    /// <summary>
+    /// Интерфейс работы с БД
+    /// </summary>
     public interface IDataAccessService
     {
         ObservableCollection<Product> GetProducts();
@@ -18,10 +21,14 @@ namespace ChemicalApp
         ObservableCollection<Debet> GetDebets();
         ObservableCollection<Kredit> GetKredits();
         ObservableCollection<Department> GetDepartments();
+        ObservableCollection<DepartmentKredit> GetDepartmentKredits(int id);
 
         Task<int> CreateProduct(Product product);
         Task<int> CreateBalance(Balance balance);
         Task<int> CreateDebet(Debet debet);
+        Task<int> CreateKredit(Kredit kredit);
+
+        int Balance(int id);
     }
 
     public class DataAccessService : IDataAccessService
@@ -132,6 +139,17 @@ namespace ChemicalApp
                 db.Debets.AddOrUpdate(debet);
                 if (await db.SaveChangesAsync().ConfigureAwait(false) > 0)
                     return debet.Id;
+            }
+            return 0;
+        }
+
+        public async Task<int> CreateKredit(Kredit kredit)
+        {
+            using (var db=new ChemicalContext())
+            {
+                db.Kredits.AddOrUpdate(kredit);
+                if (await db.SaveChangesAsync().ConfigureAwait(false) > 0)
+                    return kredit.Id;
             }
             return 0;
         }

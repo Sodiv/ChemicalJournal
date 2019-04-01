@@ -16,7 +16,7 @@
                 <Border BorderBrush="Gray" BorderThickness="1">
                     <StackPanel Orientation="Horizontal" Width="83">                        
                         <Label Content="{Binding Sum}" Width="60" HorizontalContentAlignment="Center"/>
-                        <Button Content="+" Width="20" Height="20"/>                
+                        <Button Content="+" Width="20" Height="20" Command="{Binding MainWindow.AddKredit, Source={StaticResource Locator}}" CommandParameter="{Binding Id}"/>
                     </StackPanel>
                 </Border>
             </StackPanel>
@@ -29,6 +29,7 @@
             </MenuItem>
             <MenuItem Header="Помощь"/>
         </Menu>
+        
         <StatusBar DockPanel.Dock="Bottom">
             <TextBlock Text="Ready!"/>
         </StatusBar>
@@ -69,8 +70,8 @@
                     <Border Grid.ColumnSpan="2" Grid.Row="1" Margin="5" BorderBrush="Black" BorderThickness="1" Width="150">
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="Приход:" HorizontalAlignment="Center" FontWeight="Bold"/>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Debet}" HorizontalAlignment="Center" Width="127"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding Debet}" HorizontalAlignment="Center" Width="126" VerticalAlignment="Center"/>
                                 <Button Content="+" Width="20" Height="20" Command="{Binding MainWindow.AddDebet, Source={StaticResource Locator}}" CommandParameter="{Binding Id}"/>
                             </StackPanel>
                         </StackPanel>

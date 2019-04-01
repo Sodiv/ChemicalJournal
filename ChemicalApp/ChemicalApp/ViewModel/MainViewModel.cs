@@ -42,9 +42,12 @@ namespace ChemicalApp.ViewModel
         public ICommand SaveDebet { get; }
         public ICommand Cancel { get; }
         public ICommand AddDebet { get; }
+        public ICommand AddKredit { get; }
+        public ICommand SaveKredit { get; }
 
         AddProduct addProduct;
         AddDebet addDebet;
+        AddKredit addKredit;
 
         private MainData _SelectedMainData;
         public MainData SelectedMainData
@@ -84,14 +87,34 @@ namespace ChemicalApp.ViewModel
         public MainViewModel(IDataAccessService DataAccessService)
         {
             _DataAccessService = DataAccessService;
-
+                        
             UpdateDataCommand = new RelayCommand(OnUpdateDataCommandExecuted, UpdateDataCommandCanExecuted);
             CreateNewProduct = new RelayCommand(OnCreateNewProductExecuted);
             SaveProduct = new RelayCommand(OnSaveProductExecuted);
             SaveDebet = new RelayCommand(OnSaveDebetExecuted);
+            SaveKredit = new RelayCommand(OnSaveKreditExecuted);
             Cancel = new RelayCommand(OnCancelExecuted);
             AddDebet = new RelayCommand<int>(OnAddDebetExecuted);
+            AddKredit = new RelayCommand<int>(OnAddKreditExecuted);
             MainDatas = _DataAccessService.GetMainDatas();
+        }
+
+        private async void OnSaveKreditExecuted()
+        {
+            if (await _DataAccessService.CreateKredit(CurrentKredit) > 0)
+                OnUpdateDataCommandExecuted();
+            addKredit.Close();
+        }
+
+        private void OnAddKreditExecuted(int id)
+        {
+            CurrentKredit = new Kredit();
+            CurrentKredit.ProductId = SelectedMainData.Id;
+            CurrentKredit.DepartmentId = id;
+            CurrentKredit.Date = DateTime.Now;
+            addKredit = new AddKredit();
+            addKredit.Title = $"Расход {SelectedMainData.Name}";
+            addKredit.ShowDialog();
         }
 
         private void OnUpdateDataCommandExecuted()
@@ -105,7 +128,8 @@ namespace ChemicalApp.ViewModel
         private async void OnSaveDebetExecuted()
         {
             if (await _DataAccessService.CreateDebet(CurrentDebet) > 0)
-                OnUpdateDataCommandExecuted();
+                if (CurrentDebet.Date.Month == DateTime.Today.Month)
+                    SelectedMainData.Debet += CurrentDebet.Sum;
             addDebet.Close();
         }
 
@@ -113,7 +137,9 @@ namespace ChemicalApp.ViewModel
         {
             CurrentDebet = new Debet();
             CurrentDebet.ProductId = id;
+            CurrentDebet.Date = DateTime.Now;
             addDebet = new AddDebet();
+            addDebet.Title = $"Приход {SelectedMainData.Name}";
             addDebet.ShowDialog();
         }
 
@@ -133,7 +159,8 @@ namespace ChemicalApp.ViewModel
                     {
                         Id = CurrentProduct.Id,
                         Name = CurrentProduct.Name,
-                        Summa = CurrentBalance.Sum
+                        Summa = _DataAccessService.Balance(CurrentProduct.Id),
+                        DepartmentKredits = _DataAccessService.GetDepartmentKredits(CurrentProduct.Id)
                     });
                     this.addProduct.Close();
                 }

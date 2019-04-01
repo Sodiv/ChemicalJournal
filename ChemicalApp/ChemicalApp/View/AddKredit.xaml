@@ -1,4 +1,4 @@
-﻿<Window x:Class="ChemicalApp.View.AddDebet"
+﻿<Window x:Class="ChemicalApp.View.AddKredit"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,14 +6,16 @@
         xmlns:local="clr-namespace:ChemicalApp.View"
         xmlns:local1="clr-namespace:ChemicalApp"
         mc:Ignorable="d"
-        Title="{Binding Title}" Height="250" Width="400"
+        Title="AddDebet" Height="250" Width="400"
         DataContext="{Binding MainWindow, Source={StaticResource Locator}}">
     <DockPanel>
         <StackPanel DockPanel.Dock="Bottom">
-            <Button Width="100" Height="30" Margin="10" Content="Ok" Command="{Binding SaveDebet}"/>
+            <Button Width="100" Height="30" Margin="10" Content="Ok" Command="{Binding SaveKredit}"/>
         </StackPanel>
-        <Grid DataContext="{Binding CurrentDebet}" Margin="5">
+        <Grid DataContext="{Binding CurrentKredit}" Margin="5">
         <StackPanel Orientation="Vertical">
+            <TextBlock Text="{Binding ProductId}"/>
+            <TextBlock Text="{Binding DepartmentId}"/>
             <TextBlock Text="Дата:" Margin="5"/>
             <DatePicker SelectedDate="{Binding Date}"/>
             <TextBlock Text="Количество:" Margin="5"/>
