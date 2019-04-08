@@ -27,9 +27,16 @@
             <MenuItem Header="Файл">
                 <MenuItem Header="Добавить продукт" Command="{Binding CreateNewProduct}"/>
             </MenuItem>
+            <MenuItem Header="Отчет"/>
             <MenuItem Header="Помощь"/>
         </Menu>
-        
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Text="Выбрать период: от " VerticalAlignment="Center"/>
+            <DatePicker/>
+            <TextBlock Text=" до " VerticalAlignment="Center"/>
+            <DatePicker/>
+            <Button Content="Тек. месяц" Margin="5"/>
+        </StackPanel>
         <StatusBar DockPanel.Dock="Bottom">
             <TextBlock Text="Ready!"/>
         </StatusBar>
