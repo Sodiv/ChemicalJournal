@@ -44,10 +44,13 @@ namespace ChemicalApp.ViewModel
         public ICommand AddDebet { get; }
         public ICommand AddKredit { get; }
         public ICommand SaveKredit { get; }
+        public ICommand DateNow { get; }
 
         AddProduct addProduct;
         AddDebet addDebet;
         AddKredit addKredit;
+        int month = DateTime.Now.Month;
+        int year = DateTime.Now.Year;
 
         private MainData _SelectedMainData;
         public MainData SelectedMainData
@@ -84,9 +87,26 @@ namespace ChemicalApp.ViewModel
             set => Set(ref _CurrentKredit, value);
         }
 
+        private DateTime _SelectStartDate;
+        public DateTime SelectStartDate
+        {
+            get => _SelectStartDate;
+            set => Set(ref _SelectStartDate, value);
+        }
+
+        private DateTime _SelectEndDate;
+        public DateTime SelectEndDate
+        {
+            get => _SelectEndDate;
+            set => Set(ref _SelectEndDate, value);
+        }
+
         public MainViewModel(IDataAccessService DataAccessService)
         {
             _DataAccessService = DataAccessService;
+            
+            SelectStartDate = new DateTime(year, month, 1);
+            SelectEndDate = SelectStartDate.AddMonths(1).AddDays(-1);
                         
             UpdateDataCommand = new RelayCommand(OnUpdateDataCommandExecuted, UpdateDataCommandCanExecuted);
             CreateNewProduct = new RelayCommand(OnCreateNewProductExecuted);
@@ -96,7 +116,15 @@ namespace ChemicalApp.ViewModel
             Cancel = new RelayCommand(OnCancelExecuted);
             AddDebet = new RelayCommand<int>(OnAddDebetExecuted);
             AddKredit = new RelayCommand<int>(OnAddKreditExecuted);
-            MainDatas = _DataAccessService.GetMainDatas();
+            DateNow = new RelayCommand(OnDateNowExecuted);
+            MainDatas = _DataAccessService.GetMainDatas(SelectStartDate, SelectEndDate);
+        }
+
+        private void OnDateNowExecuted()
+        {
+            SelectStartDate = new DateTime(year, month, 1);
+            SelectEndDate = SelectStartDate.AddMonths(1).AddDays(-1);
+            OnUpdateDataCommandExecuted();
         }
 
         private async void OnSaveKreditExecuted()
@@ -119,7 +147,7 @@ namespace ChemicalApp.ViewModel
 
         private void OnUpdateDataCommandExecuted()
         {
-            MainDatas = _DataAccessService.GetMainDatas();
+            MainDatas = _DataAccessService.GetMainDatas(SelectStartDate, SelectEndDate);
             RaisePropertyChanged(nameof(MainDatas));
         }
 
@@ -159,8 +187,8 @@ namespace ChemicalApp.ViewModel
                     {
                         Id = CurrentProduct.Id,
                         Name = CurrentProduct.Name,
-                        Summa = _DataAccessService.Balance(CurrentProduct.Id),
-                        DepartmentKredits = _DataAccessService.GetDepartmentKredits(CurrentProduct.Id)
+                        Summa = _DataAccessService.Balance(CurrentProduct.Id, SelectEndDate),
+                        DepartmentKredits = _DataAccessService.GetDepartmentKredits(CurrentProduct.Id, SelectStartDate, SelectEndDate)
                     });
                     this.addProduct.Close();
                 }

@@ -32,10 +32,11 @@
         </Menu>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center">
             <TextBlock Text="Выбрать период: от " VerticalAlignment="Center"/>
-            <DatePicker/>
+            <DatePicker SelectedDate="{Binding SelectStartDate}"/>
             <TextBlock Text=" до " VerticalAlignment="Center"/>
-            <DatePicker/>
-            <Button Content="Тек. месяц" Margin="5"/>
+            <DatePicker SelectedDate="{Binding SelectEndDate}"/>
+            <Button Content="Ок" Margin="5" Command="{Binding UpdateDataCommand}"/>
+            <Button Content="Тек. месяц" Margin="5" Command="{Binding DateNow}"/>
         </StackPanel>
         <StatusBar DockPanel.Dock="Bottom">
             <TextBlock Text="Ready!"/>
@@ -45,7 +46,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
-            <DataGrid ItemsSource="{Binding MainDatas}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedMainData}">
+            <DataGrid ItemsSource="{Binding MainDatas}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedMainData}" IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
                     <DataGridTextColumn Header="Остаток" Binding="{Binding Summa}"/>
