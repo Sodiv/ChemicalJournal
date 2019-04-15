@@ -5,7 +5,6 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using System;
 using System.Collections.ObjectModel;
-using System.Windows;
 using System.Windows.Input;
 
 namespace ChemicalApp.ViewModel
@@ -104,10 +103,10 @@ namespace ChemicalApp.ViewModel
         public MainViewModel(IDataAccessService DataAccessService)
         {
             _DataAccessService = DataAccessService;
-            
+
             SelectStartDate = new DateTime(year, month, 1);
             SelectEndDate = SelectStartDate.AddMonths(1).AddDays(-1);
-                        
+
             UpdateDataCommand = new RelayCommand(OnUpdateDataCommandExecuted, UpdateDataCommandCanExecuted);
             CreateNewProduct = new RelayCommand(OnCreateNewProductExecuted);
             SaveProduct = new RelayCommand(OnSaveProductExecuted);
@@ -152,7 +151,7 @@ namespace ChemicalApp.ViewModel
         }
 
         private bool UpdateDataCommandCanExecuted() => true;
-        
+
         private async void OnSaveDebetExecuted()
         {
             if (await _DataAccessService.CreateDebet(CurrentDebet) > 0)
@@ -178,10 +177,10 @@ namespace ChemicalApp.ViewModel
 
         private async void OnSaveProductExecuted()
         {
-            if(await _DataAccessService.CreateProduct(CurrentProduct) > 0)
+            if (await _DataAccessService.CreateProduct(CurrentProduct) > 0)
             {
                 CurrentBalance.ProductId = CurrentProduct.Id;
-                if(await _DataAccessService.CreateBalance(CurrentBalance) > 0)
+                if (await _DataAccessService.CreateBalance(CurrentBalance) > 0)
                 {
                     MainDatas.Add(new MainData()
                     {

@@ -6,21 +6,21 @@
         xmlns:local="clr-namespace:ChemicalApp.View"
         xmlns:local1="clr-namespace:ChemicalApp"
         mc:Ignorable="d"
-        Title="AddDebet" Height="250" Width="400"
+        Title="{Binding Title}" Height="250" Width="400"
         DataContext="{Binding MainWindow, Source={StaticResource Locator}}">
     <DockPanel>
         <StackPanel DockPanel.Dock="Bottom">
             <Button Width="100" Height="30" Margin="10" Content="Ok" Command="{Binding SaveKredit}"/>
         </StackPanel>
         <Grid DataContext="{Binding CurrentKredit}" Margin="5">
-        <StackPanel Orientation="Vertical">
-            <TextBlock Text="{Binding ProductId}"/>
-            <TextBlock Text="{Binding DepartmentId}"/>
-            <TextBlock Text="Дата:" Margin="5"/>
-            <DatePicker SelectedDate="{Binding Date}"/>
-            <TextBlock Text="Количество:" Margin="5"/>
-            <TextBox Text="{Binding Sum}"/>
-        </StackPanel>
-    </Grid>
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Дата:" Margin="5"/>
+                <DatePicker SelectedDate="{Binding Date}"/>
+                <TextBlock Text="Количество:" Margin="5"/>
+                <TextBox Text="{Binding Sum}"/>
+                <TextBlock Text="Комментарий:" Margin="5"/>
+                <TextBox Text="{Binding Comment}" Height="40"/>
+            </StackPanel>
+        </Grid>
     </DockPanel>
 </Window>
